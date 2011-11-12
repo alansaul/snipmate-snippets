@@ -1,5 +1,5 @@
 "ruby {{{1
-function! Snippet_RubyClassNameFromFilename(...)
+function! support_functions#RubyClassNameFromFilename(...)
     let name = expand("%:t:r")
     if len(name) == 0
         if a:0 == 0
@@ -8,10 +8,10 @@ function! Snippet_RubyClassNameFromFilename(...)
             let name = a:1
         endif
     endif
-    return Snippet_Camelcase(substitute(name, '_spec$', '', ''))
+    return support_functions#Camelcase(substitute(name, '_spec$', '', ''))
 endfunction
 
-function! Snippet_MigrationNameFromFilename(...)
+function! support_functions#MigrationNameFromFilename(...)
     let name = substitute(expand("%:t:r"), '^.\{-}_', '', '')
     if len(name) == 0
         if a:0 == 0
@@ -20,12 +20,12 @@ function! Snippet_MigrationNameFromFilename(...)
             let name = a:1
         endif
     endif
-    return Snippet_Camelcase(name)
+    return support_functions#Camelcase(name)
 endfunction
 
 
 "python {{{1
-function! Snippet_PythonClassNameFromFilename(...)
+function! support_functions#PythonClassNameFromFilename(...)
     let name = expand("%:t:r")
     if len(name) == 0
         if a:0 == 0
@@ -34,11 +34,11 @@ function! Snippet_PythonClassNameFromFilename(...)
             let name = a:1
         endif
     endif
-    return Snippet_Camelcase(name)
+    return support_functions#Camelcase(name)
 endfunction
 
 "php {{{1
-function! Snippet_PHPClassNameFromFilename(...)
+function! support_functions#PHPClassNameFromFilename(...)
     let name = expand("%:t:r:r")
     if len(name) == 0
         if a:0 == 0
@@ -51,7 +51,7 @@ function! Snippet_PHPClassNameFromFilename(...)
 endfunction
 
 "java {{{1
-function! Snippet_JavaClassNameFromFilename(...)
+function! support_functions#JavaClassNameFromFilename(...)
     let name = expand("%:t:r")
     if len(name) == 0
         if a:0 == 0
@@ -63,7 +63,7 @@ function! Snippet_JavaClassNameFromFilename(...)
     return name
 endfunction
 
-function! Snippet_JavaInstanceVarType(name)
+function! support_functions#JavaInstanceVarType(name)
     let oldview = winsaveview()
     if searchdecl(a:name) == 0
         normal! B
@@ -92,18 +92,18 @@ function! s:end_comment()
     return substitute(&commentstring, '^.*%s\(.*\)$', '\1', '')
 endfunction
 
-function! Snippet_Modeline()
+function! support_functions#Modeline()
     return s:start_comment() . " vim: set ${1:settings}:" . s:end_comment()
 endfunction
 
-function! Snippet_Camelcase(s)
+function! support_functions#Camelcase(s)
     "upcase the first letter
     let toReturn = substitute(a:s, '^\(.\)', '\=toupper(submatch(1))', '')
     "turn all '_x' into 'X'
     return substitute(toReturn, '_\(.\)', '\=toupper(submatch(1))', 'g')
 endfunction
 
-function! Snippet_Underscore(s)
+function! support_functions#Underscore(s)
     "down the first letter
     let toReturn = substitute(a:s, '^\(.\)', '\=tolower(submatch(1))', '')
     "turn all 'X' into '_x'
